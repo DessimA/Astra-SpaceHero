@@ -1,4 +1,4 @@
-extends Node2D
+extends KinematicBody2D
 
 var sprite_tiro = preload("res://scenes/Tiro.tscn")
 var espera = .2
@@ -42,4 +42,4 @@ func _process(delta):
 	if Game.vidas <= 0:
 		Game.vidas = 3
 		Game.pontos = 0
-		get_tree().reload_current_scene() # reinicia a cena atual
+	get_tree().reload_current_scene() # reinicia a cena atual
