@@ -1,0 +1,112 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scenes/Nave.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/Spawner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://sprites/Background/starBig.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Background/speedLine.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Background/backgroundColor.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Background/starSmall.png" type="Texture" id=6]
+[ext_resource path="res://scripts/Camera2D.gd" type="Script" id=7]
+[ext_resource path="res://fonts/xolonium/Xolonium.tres" type="DynamicFont" id=8]
+[ext_resource path="res://scripts/label.gd" type="Script" id=9]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var sprite_tiro = preload(\"res://scenes/Tiro.tscn\")
+var espera = .2
+var disparo = 0
+var velocidade = 500 # velocidade da nave em pixels/segundo
+
+func _ready():
+	set_process(true)
+
+func _on_nave_area_enter(area):
+	if area.is_in_group(Game.METEORO):
+		Game.vidas -= 1 # retiramos uma vida quando somos acertados
+		area.queue_free()
+
+func _process(delta):
+	var d = 0 # 1 para pressionado para a direita
+	var e = 0 # -1 para pressionado para a esquerda, inverte cálculo da posição
+	
+	if Input.is_action_pressed(\"direita\"):
+		d = 1 # validamos que direita foi pressionada
+	if Input.is_action_pressed(\"esquerda\"):
+		e = -1 # validamos que esquerda foi pressionada, -1 para inverte cálculo
+	
+	if get_position().x > (800 - 50):
+		d = 0
+	if get_position().x < 50:
+		e = 0
+
+	# Cálculo de posicionamento a uma velocidade constante a cada frame
+	set_position(get_position() + Vector2(velocidade, 0) * delta * (d + e))
+	
+	if Input.is_action_pressed(\"tiro\"):
+		if disparo <= 0:
+			var tiro = sprite_tiro.instance()
+			tiro.set_global_position(get_global_position())
+			get_node(\"../\").add_child(tiro)
+			disparo = espera
+		if disparo > 0:
+			disparo -= delta
+			
+	if Game.vidas <= 0:
+		Game.vidas = 3
+		Game.pontos = 0
+		get_tree().reload_current_scene() # reinicia a cena atual
+"
+
+[node name="Principal" type="CanvasLayer"]
+
+[node name="Nave" parent="." instance=ExtResource( 1 )]
+position = Vector2( 404, 560 )
+script = SubResource( 1 )
+
+[node name="spawner" parent="." instance=ExtResource( 2 )]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 0, 600 )
+
+[node name="BackgroundColor" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2( 403, 297 )
+scale = Vector2( 5.32167, 4.00167 )
+texture = ExtResource( 5 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 0, 600 )
+
+[node name="StarBG" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 640, 274 )
+texture = ExtResource( 3 )
+
+[node name="StarSM" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 132, 138 )
+texture = ExtResource( 6 )
+
+[node name="StarLN" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 411, 96 )
+scale = Vector2( 1.21429, 1 )
+texture = ExtResource( 4 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 7 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="HUD"]
+margin_left = 702.0
+margin_top = 20.0
+margin_right = 790.0
+margin_bottom = 59.0
+custom_colors/font_color = Color( 0.921569, 1, 0, 1 )
+custom_fonts/font = ExtResource( 8 )
+script = ExtResource( 9 )
+__meta__ = {
+"_editor_description_": ""
+}
