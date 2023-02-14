@@ -1,11 +1,46 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/scenes/Nave.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/scenes/Spawner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/images/Background/speedLine.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/Background/starSmall.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/Background/starBackground.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/Background/starBig.png" type="Texture" id=6]
+[ext_resource path="res://assets/scripts/Camera2D.gd" type="Script" id=7]
 
-[node name="Principal" type="Node2D"]
+[node name="Principal" type="CanvasLayer"]
 
 [node name="Nave" parent="." instance=ExtResource( 1 )]
 position = Vector2( 400, 563 )
 
 [node name="Spawner" parent="." instance=ExtResource( 2 )]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="BackGroundLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 0, 600 )
+
+[node name="starBackground" type="Sprite" parent="ParallaxBackground/BackGroundLayer"]
+position = Vector2( 403, 300 )
+scale = Vector2( 3.16535, 2.34375 )
+texture = ExtResource( 5 )
+
+[node name="starLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 0, 600 )
+
+[node name="speedLine" type="Sprite" parent="ParallaxBackground/starLayer"]
+position = Vector2( 122, 339 )
+texture = ExtResource( 3 )
+
+[node name="starSmall" type="Sprite" parent="ParallaxBackground/starLayer"]
+position = Vector2( 391, 78 )
+texture = ExtResource( 4 )
+
+[node name="starBig" type="Sprite" parent="ParallaxBackground/starLayer"]
+position = Vector2( 735, 273 )
+texture = ExtResource( 6 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 7 )
