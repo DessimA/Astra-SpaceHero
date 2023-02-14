@@ -1,13 +1,12 @@
-extends Area2D
+extends RigidBody2D
 
 var velocity = 500
 
 func _ready():
 	set_process(true)
 	# Adicione uma forma de colisão ao tiro
-	var shape = CollisionShape2D.new()
-	shape.shape = CircleShape2D.new()
-	shape.shape.radius = 5
+	var shape = CollisionPolygon2D.new()
+	shape.set_deferred("points", [Vector2(-5, -5), Vector2(5, -5), Vector2(0, 5)])
 	add_child(shape)
 
 func _process(delta):

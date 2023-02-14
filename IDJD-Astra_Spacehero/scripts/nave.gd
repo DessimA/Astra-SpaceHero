@@ -43,3 +43,4 @@ func _process(delta):
 		Game.vidas = 3
 		Game.pontos = 0
 	get_tree().reload_current_scene() # reinicia a cena atual
+	

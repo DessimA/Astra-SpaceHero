@@ -3,7 +3,9 @@
 [ext_resource path="res://sprites/meteorBig.png" type="Texture" id=1]
 [ext_resource path="res://scripts/meteoro.gd" type="Script" id=2]
 
-[node name="meteoro" type="Area2D"]
+[node name="meteoro" type="RigidBody2D"]
+collision_layer = 8
+contacts_reported = 1
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
