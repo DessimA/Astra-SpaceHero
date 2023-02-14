@@ -32,4 +32,16 @@ func _process(delta):
 			disparo = espera
 	if disparo > 0:
 		disparo -= delta
+	if game.vidas <= 0:
+		game.vidas = 3
+		game.pontos = 0
+		get_tree().reload_current_scene() # reinicia a cena atual
 	pass
+
+
+func _on_Nave_area_entered(area):
+	if area.is_in_group(game.METEORO):
+
+		game.vidas -= 1 # retiramos uma vida quando somos acertados
+		area.queue_free()
+	pass # replace with function body

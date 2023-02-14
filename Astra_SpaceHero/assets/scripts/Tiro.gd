@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 var velocidade = 500
 
@@ -11,3 +11,11 @@ func _process(delta):
 	if position.y < -30:
 		free()
 	pass
+
+
+func _on_Tiro_area_entered(area):
+	if area.is_in_group(game.METEORO): # identificaremos nosso meteoro por grupo
+		area.queue_free() # destruímos o meteoro
+		pass
+	pass # replace with function body
+	
