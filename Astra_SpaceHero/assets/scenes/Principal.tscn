@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/scenes/Nave.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/scenes/Spawner.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/images/Background/starBackground.png" type="Texture" id=5]
 [ext_resource path="res://assets/images/Background/starBig.png" type="Texture" id=6]
 [ext_resource path="res://assets/scripts/Camera2D.gd" type="Script" id=7]
+[ext_resource path="res://assets/scripts/Score.gd" type="Script" id=9]
 
 [node name="Principal" type="CanvasLayer"]
 
@@ -44,3 +45,18 @@ texture = ExtResource( 6 )
 anchor_mode = 0
 current = true
 script = ExtResource( 7 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="HUD"]
+margin_left = 513.0
+margin_top = 14.0
+margin_right = 603.0
+margin_bottom = 34.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.976471, 0.992157, 0, 1 )
+text = "0"
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 9 )

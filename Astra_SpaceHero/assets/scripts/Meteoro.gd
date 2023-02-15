@@ -4,7 +4,6 @@ var rotacao = 0
 
 func _ready():
 	add_to_group(game.METEORO) # w adcionamos nosso meteoro a seu devido grupo
-	game.pontos += 10 #cada meteoro destruído o jogador ganha 10 pontos
 	randomize() # reseta a semente
 	set_process(true)
 	rotacao = rand_range(-3, 3) # randomiza entre -2 e 2 a rotação
